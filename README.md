@@ -36,6 +36,10 @@ In a console or command prompt, type "`mvn package`". This builds a "fat-jar" of
 
 In a console or command prompt, type "`mvn test`".
 
+# TODO
+
+Write JWT authentication logic, add Docker and Kubernetes files.
+
 # License
 
 The license is Apache 2.0, honestly, do whatever you want with the code...
