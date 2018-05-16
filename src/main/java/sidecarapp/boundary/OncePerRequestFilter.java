@@ -25,7 +25,7 @@ public class OncePerRequestFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
-        if (isNotAlreadyFiltered(httpServletRequest)) {
+        if (requestNotAlreadyFiltered(httpServletRequest)) {
             applyDoFilter(httpServletRequest, httpServletResponse, filterChain);
             markRequestAsFiltered(httpServletRequest);
         }
@@ -40,15 +40,15 @@ public class OncePerRequestFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private boolean isNotAlreadyFiltered(final HttpServletRequest request) {
-        return request.getAttribute(filteredAttrName(request)) == null;
+    private boolean requestNotAlreadyFiltered(final HttpServletRequest request) {
+        return request.getAttribute(filteredRequestAttrName(request)) == null;
     }
 
-    private void markRequestAsFiltered(final HttpServletRequest req) {
-        req.setAttribute(filteredAttrName(req), Boolean.TRUE);
+    private void markRequestAsFiltered(final HttpServletRequest request) {
+        request.setAttribute(filteredRequestAttrName(request), Boolean.TRUE);
     }
 
-    private String filteredAttrName(final HttpServletRequest request) {
+    private String filteredRequestAttrName(final HttpServletRequest request) {
         return request.getRequestURI() + FILTERED_ATTR_SUFFIX;
     }
 

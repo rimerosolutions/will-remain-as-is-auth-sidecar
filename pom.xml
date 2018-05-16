@@ -8,7 +8,7 @@
   <artifactId>auth-sidecar</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>auth-sidecar</name>
-  <description>Microservices sidecar</description>
+  <description>micro-services authentication sidecar</description>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

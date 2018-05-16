@@ -11,7 +11,7 @@ This project contains is a proxy for granting access to a micro-service via JWT 
 There are multiple ways of approaching authentication in Kubernetes, for those who can't use [istio](https://istio.io/) and/or other complicated stuff:
 
 - Code authentication directly in a micro-service or by delegating to a library
-- Authentication at the [INGRESS](https://kubernetes.io/docs/concepts/services-networking/ingress/) level via delegation to an external micro-service (cluster or elsewhere)
+- Authentication at the [INGRESS](https://kubernetes.io/docs/concepts/services-networking/ingress/) level via delegation to an external service (cluster or elsewhere)
 - Use a side-car sitting next to the micro-service at the POD level (preferred per next section)
 
 # Benefits of a sidecar

@@ -41,7 +41,12 @@ public class OncePerRequestFilterTest {
     @Parameters
     public static List<Object[]> data() {
         return Arrays.asList(new Object[][] {
-            { 1}, {ThreadLocalRandom.current().nextInt(3, 10)}
+            {
+                1
+            },
+            {
+                ThreadLocalRandom.current().nextInt(3, 10)
+            }
         });
     }
 

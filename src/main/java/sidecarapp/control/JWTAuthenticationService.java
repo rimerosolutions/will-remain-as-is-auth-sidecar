@@ -32,14 +32,14 @@ public final class JWTAuthenticationService {
         // FIXME Hypothetically, update in next Sprint when there are clarifications around requirements and infrastructure issues :-)
         // What is going on, what is inside the JWT token? Who is the real issuer for user? I don't understand :-)
         LOG.info("Using jwkProviderUrl=" + jwkProviderUrl + " for checking JWT public keys");
-        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject("joe")
-                .expirationTime(new Date(1300819380 * 1000l))
-                .claim("http://example.com/is_root", true)
-                .claim("name", "John Doe")
-                .claim("id", "john.doe")
-                .build();
-        return claimsSet;
+
+        return new JWTClaimsSet.Builder()
+            .subject("joe")
+            .expirationTime(new Date(1300819380 * 1000l))
+            .claim("http://example.com/is_root", true)
+            .claim("name", "John Doe")
+            .claim("id", "john.doe")
+            .build();
     }
 
 }

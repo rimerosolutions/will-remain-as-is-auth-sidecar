@@ -38,8 +38,7 @@ public final class App {
         servletContextHandler.setContextPath("/");
 
         servletContextHandler.addFilter(authFilter(publicUrlRegexes, jwksUrl),
-                                        "/*",
-                                        EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+                                        "/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
         servletContextHandler.addServlet(proxyServlet(proxyTargetUri), "/*");
 
         server.setHandler(servletContextHandler);

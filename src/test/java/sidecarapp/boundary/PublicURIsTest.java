@@ -29,9 +29,15 @@ public class PublicURIsTest {
     @Parameters
     public static List<Object[]> data() {
         return Arrays.asList(new Object[][] {
-            { Arrays.asList("/abc", "/bcd"), "/abc", Boolean.TRUE },
-            { Arrays.asList("/abc", "/bcd"), "/efg", Boolean.FALSE },
-            { Collections.emptyList(), "/abc", Boolean.FALSE }
+            {
+                Arrays.asList("/abc", "/bcd"), "/abc", Boolean.TRUE
+            },
+            {
+                Arrays.asList("/abc", "/bcd"), "/efg", Boolean.FALSE
+            },
+            {
+                Collections.emptyList(), "/abc", Boolean.FALSE
+            }
         });
     }
 
