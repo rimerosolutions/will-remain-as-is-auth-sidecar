@@ -1,6 +1,6 @@
 # TL;DR;
 
-This project contains is a proxy for granting access to a micro-service via JWT token authentication (**incomplete code on purposes**): You would need to hook your own logic for checking the token and claims, etc. The program is meant to provide a different perspective for authentication strategies within a container orchestration system.
+This project contains is a proxy for granting access to a micro-service via JWT token authentication (**incomplete code on purpose**): You would need to hook your own logic for checking the token and claims, etc. The program is meant to provide a different perspective for authentication strategies within a container orchestration system.
 
 - It is intended to be deployed as a sidecar [POD]() on [Kubernetes]() as the facing [SERVICE](https://kubernetes.io/docs/concepts/services-networking/service/) of a micro-service app. However, there are no dependencies against Kubernetes.
 - The approach is lightweight ([Mitre Proxy Servlet](https://github.com/mitre/HTTP-Proxy-Servlet)) in comparison to alternatives such as [Zuul](https://github.com/Netflix/zuul) and others: No spring or whatsoever.
