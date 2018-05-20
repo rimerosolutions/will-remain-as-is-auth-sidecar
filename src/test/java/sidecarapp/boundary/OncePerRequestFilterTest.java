@@ -29,14 +29,14 @@ import sidecarapp.test.TestServletUtils;
 @RunWith(Parameterized.class)
 public class OncePerRequestFilterTest {
 
-    private int invocationCount;
+    private final int invocationCount;
 
-    Map<String, String> initParametersByName;
-    OncePerRequestFilterWithInvocationCounter oncePerRequestFilter;
-    FilterConfig filterConfig;
-    FilterChain filterChain;
-    ServletRequest servletRequest;
-    ServletResponse servletResponse;
+    private Map<String, String> initParametersByName;
+    private OncePerRequestFilterWithInvocationCounter oncePerRequestFilter;
+    private FilterConfig filterConfig;
+    private FilterChain filterChain;
+    private ServletRequest servletRequest;
+    private ServletResponse servletResponse;
 
     @Parameters
     public static List<Object[]> data() {
@@ -70,9 +70,8 @@ public class OncePerRequestFilterTest {
     @Test
     public void Given_that_the_filter_is_called_possibly_multiple_times_in_same_request_then_it_applies_business_logic_once() throws Exception {
 
-        for (int i = 0; i < invocationCount; i++) {
+        for (int i = 0; i < invocationCount; i++)
             oncePerRequestFilter.doFilter(servletRequest, servletResponse, filterChain);
-        }
 
         assertThat("Request got filtered once", oncePerRequestFilter.counter, equalTo(1));
     }

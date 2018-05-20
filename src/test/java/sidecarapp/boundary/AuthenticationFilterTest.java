@@ -43,11 +43,11 @@ public class AuthenticationFilterTest {
     @Mocked
     JWTAuthenticationService authenticationService;
 
-    Map<String, String> initParametersByName;
-    FilterConfig filterConfig;
-    FilterChain filterChain;
-    HttpServletRequest servletRequest;
-    HttpServletResponse servletResponse;
+    private Map<String, String> initParametersByName;
+    private FilterConfig filterConfig;
+    private FilterChain filterChain;
+    private HttpServletRequest servletRequest;
+    private HttpServletResponse servletResponse;
 
     @Before
     public void setup() {
@@ -64,7 +64,7 @@ public class AuthenticationFilterTest {
         authenticationFilter.init(filterConfig);
         authenticationFilter.doFilter(servletRequest, servletResponse, filterChain);
 
-        assertThat("Access is granted", servletResponse.getStatus(), equalTo(200));
+        assertThat("Access is granted", servletResponse.getStatus(), equalTo(HttpServletResponse.SC_OK));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class AuthenticationFilterTest {
         filterConfig = TestServletUtils.newFilterConfig(initParametersByName);
         authenticationFilter.init(filterConfig);
         authenticationFilter.doFilter(servletRequest, servletResponse, filterChain);
-        assertThat("Access unauthorized", servletResponse.getStatus(), equalTo(401));
+        assertThat("Access unauthorized", servletResponse.getStatus(), equalTo(HttpServletResponse.SC_UNAUTHORIZED));
 
     }
 
@@ -103,7 +103,7 @@ public class AuthenticationFilterTest {
 
         authenticationFilter.doFilter(servletRequest, servletResponse, filterChain);
 
-        assertThat("Access is unauthorized", servletResponse.getStatus(), equalTo(401));
+        assertThat("Access is unauthorized", servletResponse.getStatus(), equalTo(HttpServletResponse.SC_UNAUTHORIZED));
     }
 
     @SuppressWarnings("unchecked")
@@ -147,10 +147,10 @@ public class AuthenticationFilterTest {
         authenticationFilter.doFilter(servletRequest, servletResponse, filterChainWithRequestHandle);
 
         servletRequest = (HttpServletRequest) filterChainWithRequestHandle.request;
-        assertThat("Access is granted", servletResponse.getStatus(), equalTo(200));
-        assertThat("The user id header is there", servletRequest.getHeader("X-id"), equalTo("logged-in-user"));
-        assertThat("The name header is there", servletRequest.getHeader("X-name"), equalTo("name"));
-        assertThat("The groups header is there", servletRequest.getHeader("X-groups"), equalTo("GROUPS"));
+        assertThat("Access is granted", servletResponse.getStatus(), equalTo(HttpServletResponse.SC_OK));
+        assertThat("The user id header is set", servletRequest.getHeader("X-id"), equalTo("logged-in-user"));
+        assertThat("The name header is set", servletRequest.getHeader("X-name"), equalTo("name"));
+        assertThat("The groups header is set", servletRequest.getHeader("X-groups"), equalTo("GROUPS"));
     }
 
     private static class FilterChainWithRequestHandle implements FilterChain {

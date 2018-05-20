@@ -14,6 +14,10 @@ public final class User {
     private final Collection<String> groups;
 
     private User(String id, String name, Collection<String> groups) {
+        Objects.requireNonNull(id     , "The id is required.");
+        Objects.requireNonNull(name   , "The name is required.");
+        Objects.requireNonNull(groups , "The groups are required.");
+
         this.id = id;
         this.name = name;
         this.groups = groups;
@@ -39,4 +43,3 @@ public final class User {
     }
 
 }
-

@@ -11,27 +11,27 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 final class AddHeadersServletRequestWrapper extends HttpServletRequestWrapper {
 
-    private final Map<String, String> customHeadersMap = new HashMap<>();
+    private final Map<String, String> headersByName = new HashMap<>();
 
     public AddHeadersServletRequestWrapper(HttpServletRequest request) {
         super(request);
     }
 
     void injectHeader(String name, String value) {
-        customHeadersMap.put(name, value);
+        headersByName.put(name, value);
     }
 
     @Override
     public String getHeader(String name) {
         String header = super.getHeader(name);
 
-        return (header != null) ? header : customHeadersMap.get(name);
+        return (header != null) ? header : headersByName.get(name);
     }
 
     @Override
     public Enumeration<String> getHeaderNames() {
         List<String> names = Collections.list(super.getHeaderNames());
-        names.addAll(customHeadersMap.keySet());
+        names.addAll(headersByName.keySet());
 
         return Collections.enumeration(names);
     }

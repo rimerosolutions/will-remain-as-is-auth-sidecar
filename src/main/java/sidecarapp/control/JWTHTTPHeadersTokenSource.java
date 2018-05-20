@@ -1,5 +1,4 @@
 package sidecarapp.control;
-
 import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletRequest;

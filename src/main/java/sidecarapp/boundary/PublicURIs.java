@@ -17,16 +17,14 @@ final class PublicURIs {
         return new PublicURIs(regexes);
     }
 
-    public boolean isPublic(final String requestURI) {
+    public boolean isProtected(final String requestURI) {
         Objects.requireNonNull(requestURI, "The request URI is required.");
 
-        for (String regex : regexes) {
-            if (requestURI.matches(regex)) {
-                return true;
-            }
-        }
+        for (String regex : regexes)
+            if (requestURI.matches(regex))
+                return false;
 
-        return false;
+        return true;
     }
 
 }

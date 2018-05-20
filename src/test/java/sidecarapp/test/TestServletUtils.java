@@ -153,7 +153,7 @@ public final class TestServletUtils {
 
     private static final class HttpServletResponseProxy implements InvocationHandler {
 
-        private int status = 200;
+        private int status = HttpServletResponse.SC_OK;
 
         @SuppressWarnings("unused")
         public void setStatus(int status) {

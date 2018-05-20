@@ -33,13 +33,12 @@ public final class AuthenticationFilter extends OncePerRequestFilter {
     protected void applyDoFilter(final HttpServletRequest request,
                                  final HttpServletResponse response,
                                  final FilterChain chain) throws IOException, ServletException {
-        String requestURI = request.getRequestURI();
-        LOG.info("Filtering request to =" + requestURI);
+        LOG.info("Filtering request to =" + request.getRequestURI());
         User user = User.ANONYMOUS;
 
         AddHeadersServletRequestWrapper requestWrapper = new AddHeadersServletRequestWrapper(request);
 
-        if (!publicURIs.isPublic(requestURI)) {
+        if (publicURIs.isProtected(request.getRequestURI())) {
             try {
                 UserImporter importer = authService.authenticate(new JWTHTTPHeadersTokenSource(requestWrapper));
                 user = User.from(importer);
@@ -58,7 +57,7 @@ public final class AuthenticationFilter extends OncePerRequestFilter {
     }
 
     private void markResponseAsUnauthorized(final HttpServletResponse response) {
-        response.setStatus(401);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
 }

@@ -16,9 +16,9 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class PublicURIsTest {
 
-    Collection<String> publicUrlRegexes;
-    String requestURI;
-    boolean expected;
+    private final Collection<String> publicUrlRegexes;
+    private final String requestURI;
+    private final boolean expected;
 
     public PublicURIsTest(Collection<String> publicUrlRegexes, String requestURI, boolean expected) {
         this.publicUrlRegexes = publicUrlRegexes;
@@ -30,13 +30,13 @@ public class PublicURIsTest {
     public static List<Object[]> data() {
         return Arrays.asList(new Object[][] {
             {
-                Arrays.asList("/abc", "/bcd"), "/abc", Boolean.TRUE
+                Arrays.asList("/abc", "/bcd"), "/abc", Boolean.FALSE
             },
             {
-                Arrays.asList("/abc", "/bcd"), "/efg", Boolean.FALSE
+                Arrays.asList("/abc", "/bcd"), "/efg", Boolean.TRUE
             },
             {
-                Collections.emptyList(), "/abc", Boolean.FALSE
+                Collections.emptyList(), "/abc", Boolean.TRUE
             }
         });
     }
@@ -45,7 +45,7 @@ public class PublicURIsTest {
     public void Given_the_user_navigates_to_a_resource_then_the_uri_is_checked_for_public_access() {
         PublicURIs publicURIs = PublicURIs.from(publicUrlRegexes);
 
-        assertThat("The URI", publicURIs.isPublic(requestURI), equalTo(expected));
+        assertThat("The URI", publicURIs.isProtected(requestURI), equalTo(expected));
     }
 
 }
