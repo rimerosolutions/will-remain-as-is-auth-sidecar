@@ -19,29 +19,34 @@ public final class App {
     private static final String DEFAULT_JWKS_URL = "https://change_me_jwkuri/keys.json";
     private static final int DEFAULT_SERVER_PORT = 8080;
 
-    public static void main(final String[] args) throws Exception {
-        final int serverPort = Integer.getInteger("APP_SERVER_PORT", DEFAULT_SERVER_PORT);
-        final String proxyTargetUri = System.getProperty("MICROSERVICE_URI", DEFAULT_MICROSERVICE_URI);
-        final String publicUrlRegexes = System.getProperty("PUBLIC_URL_REGEXES", DEFAULT_PUBLIC_URL_REGEXES);
-        final String jwksUrl = System.getProperty("JWKS_URL", DEFAULT_JWKS_URL);
+    private final Server server;
 
-        new App().run(serverPort, proxyTargetUri, publicUrlRegexes, jwksUrl);
-    }
-
-    private void run(final int serverPort,
-                     final String proxyTargetUri,
-                     final String publicUrlRegexes,
-                     final String jwksUrl) throws Exception, InterruptedException {
-        final Server server = new Server(serverPort);
-
+    private App(final int serverPort,
+                final String proxyTargetUri,
+                final String publicUrlRegexes,
+                final String jwksUrl) {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
         servletContextHandler.setContextPath("/");
 
-        servletContextHandler.addFilter(authFilter(publicUrlRegexes, jwksUrl),
-                                        "/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST);
+        servletContextHandler.addFilter(authFilter(publicUrlRegexes, jwksUrl), "/*", dispatcherTypes);
         servletContextHandler.addServlet(proxyServlet(proxyTargetUri), "/*");
 
+        server = new Server(serverPort);
         server.setHandler(servletContextHandler);
+    }
+
+    public static void main(final String[] args) throws Exception {
+        final int serverPort = Integer.getInteger("APP_SERVER_PORT", DEFAULT_SERVER_PORT);
+        final String proxiedServiceUri = System.getProperty("MICROSERVICE_URI", DEFAULT_MICROSERVICE_URI);
+        final String publicUrlRegexes = System.getProperty("PUBLIC_URL_REGEXES", DEFAULT_PUBLIC_URL_REGEXES);
+        final String jwksUrl = System.getProperty("JWKS_URL", DEFAULT_JWKS_URL);
+
+        final App sidecar = new App(serverPort, proxiedServiceUri, publicUrlRegexes, jwksUrl);
+        sidecar.start();
+    }
+
+    private void start() throws Exception {
         server.start();
         server.join();
     }
@@ -65,4 +70,3 @@ public final class App {
     }
 
 }
-
